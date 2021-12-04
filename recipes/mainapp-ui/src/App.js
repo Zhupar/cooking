@@ -1,29 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from './components/Navigation/Navbar';
+import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import CategoryDetail from './components/Category/CategoryDetail';
+import RecipeDetail from './components/Recipe/RecipeDetail';
+
 
 function App() {
-  const [people, setPeople] = useState([]);
-
-  useEffect(()=> {
-    axios ({
-      method: "GET",
-      url: "http://127.0.0.1:8000/api/test-api/"
-    }).then (response => {
-      setPeople(response.data)
-      console.log(response.data)
-    })
-  }, [])
+  
   return (
     <div className="App">
-      <h1>Hello React from Django</h1>
-      <ul>
-        {people.map(p =>(
-          <li key ={p.id}>
-            {p.name}
-          </li>
-        ))}
-      </ul>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route  exact path='/category/:id' element={<CategoryDetail />} />
+          <Route  exact path='/recipe/:id' element={<RecipeDetail />} />
+        </Routes> 
+      </BrowserRouter>
     </div>
   );
 }

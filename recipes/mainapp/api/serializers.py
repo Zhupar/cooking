@@ -8,6 +8,17 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
+class CategoryDetailSerializer(serializers.ModelSerializer):
+    recipes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+    @staticmethod
+    def get_recipes(obj):
+        return RecipeSerializer(Recipe.objects.filter(recipe_category=obj), many=True).data
+
 class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -20,3 +31,5 @@ class RecipeRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields='__all__'
+
+
